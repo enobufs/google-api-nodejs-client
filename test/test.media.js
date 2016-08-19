@@ -48,7 +48,7 @@ function testMultpart (drive, cb) {
         .replace('$resource', JSON.stringify(resource))
         .replace('$mimeType', 'text/plain')
         .trim();
-    assert.strictEqual(expectedResp, body);
+    assert.strictEqual(expectedResp, body.toString());
     cb();
   });
 }
@@ -78,7 +78,7 @@ function testMediaBody (drive, cb) {
         .replace('$resource', JSON.stringify(resource))
         .replace('$mimeType', 'text/plain')
         .trim();
-    assert.strictEqual(expectedResp, body);
+    assert.strictEqual(expectedResp, body.toString());
     cb();
   });
 }
@@ -177,7 +177,7 @@ describe('Media', function () {
         req.uri.href,
         'https://www.googleapis.com/upload/drive/v2/files?uploadType=media'
       );
-      assert.strictEqual(media.body, body);
+      assert.strictEqual(media.body, body.toString());
       req = remoteDrive.files.insert({ media: media }, function (err, body) {
         if (err) {
           return done(err);
@@ -187,7 +187,7 @@ describe('Media', function () {
           req.uri.href,
           'https://www.googleapis.com/upload/drive/v2/files?uploadType=media'
         );
-        assert.strictEqual(media.body, body);
+        assert.strictEqual(media.body, body.toString());
         scope.done();
         done();
       });
@@ -310,7 +310,7 @@ describe('Media', function () {
       if (err) {
         return done(err);
       }
-      assert.equal(resp, expectedBody);
+      assert.equal(resp.toString(), expectedBody);
       body = fs.createReadStream(path.join(__dirname, '/fixtures/mediabody.txt'));
       expectedBody = fs.readFileSync(path.join(__dirname, '/fixtures/mediabody.txt'));
       remoteGmail.users.drafts.create({
@@ -323,7 +323,7 @@ describe('Media', function () {
         if (err) {
           return done(err);
         }
-        assert.equal(resp, expectedBody);
+        assert.equal(resp.toString(), expectedBody);
         scope.done();
         done();
       });
@@ -362,7 +362,7 @@ describe('Media', function () {
           .replace('$resource', JSON.stringify(resource))
           .replace('$mimeType', 'message/rfc822')
           .trim();
-      assert.strictEqual(expectedBody, resp);
+      assert.strictEqual(expectedBody, resp.toString());
       resource = { message: { raw: (new Buffer('hello', 'binary')).toString('base64') } };
       body = fs.createReadStream(path.join(__dirname, '/fixtures/mediabody.txt'));
       bodyString = fs.readFileSync(path.join(__dirname, '/fixtures/mediabody.txt'), { encoding: 'utf8' });
@@ -387,7 +387,7 @@ describe('Media', function () {
             .replace('$resource', JSON.stringify(resource))
             .replace('$mimeType', 'message/rfc822')
             .trim();
-        assert.strictEqual(expectedBody, resp);
+        assert.strictEqual(expectedBody, resp.toString());
         scope.done();
         done();
       });
